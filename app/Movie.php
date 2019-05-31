@@ -8,6 +8,7 @@ use DB;
 
 class Movie extends Model
 {
+	//hola
     protected $table = "movies";
     protected $fillable = ['name','path','cast','direction','duration','genre_id'];
 
