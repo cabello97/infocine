@@ -8,15 +8,14 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
 
-class LogController extends Controller
-{
+class LogController extends Controller {
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index() {
         //
     }
 
@@ -25,8 +24,7 @@ class LogController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create() {
         //
     }
 
@@ -36,16 +34,15 @@ class LogController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(LoginRequest $request)
-    {
-        if(Auth::attempt(['email'=>$request['email'], 'password'=>$request['password']])){
-            return Redirect::to('admin');
+    public function store(LoginRequest $request) {
+        if (Auth::attempt(['email' => $request['email'], 'password' => $request['password']])) {
+            return Redirect::to('/');
         }
-        Session::flash('message-error','Datos son incorrectos');
+        Session::flash('message-error', 'Datos son incorrectos');
         return Redirect::to('/');
     }
 
-    public function logout(){
+    public function logout() {
         Auth::logout();
         return Redirect::to('/');
     }
@@ -56,8 +53,7 @@ class LogController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
+    public function show($id) {
         //
     }
 
@@ -67,8 +63,7 @@ class LogController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
+    public function edit($id) {
         //
     }
 
@@ -79,8 +74,7 @@ class LogController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id) {
         //
     }
 
@@ -90,8 +84,8 @@ class LogController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
+    public function destroy($id) {
         //
     }
+
 }

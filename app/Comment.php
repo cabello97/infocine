@@ -4,8 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Genre extends Model
-{
-    protected $table = "genres";
-    protected $fillable = ['genre'];
+class Comment extends Model {
+
+    protected $table = "comments";
+    protected $fillable = ['comment', 'date'];
+
 }

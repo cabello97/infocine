@@ -1,109 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+    <head>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title></title>
-    {!!Html::style('css/bootstrap.min.css')!!}
-    {!!Html::style('css/metisMenu.min.css')!!}
-    {!!Html::style('css/sb-admin-2.css')!!}
-    {!!Html::style('css/font-awesome.min.css')!!}
-</head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<body>
+        <title></title>
+        {!!Html::style('css/bootstrap.min.css')!!}
+        {!!Html::style('css/metisMenu.min.css')!!}
+        {!!Html::style('css/sb-admin-2.css')!!}
+        {!!Html::style('css/font-awesome.min.css')!!}
+        <style>
 
-    <div id="wrapper">
+        </style>
+    </head>
 
-        
-        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="{!!URL::to('/')!!}">infoCine Admin</a>
-            </div>
-           
+    <body>
 
-            <ul class="nav navbar-top-links navbar-right">
-                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Ajustes</a>
-                        </li>
-                        <li class="divider"></li>
-                        <li><a href="{!!URL::to('/logout')!!}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
+        <div id="wrapper">
 
-            <div class="navbar-default sidebar" role="navigation">
-                <div class="sidebar-nav navbar-collapse">
-                    <ul class="nav" id="side-menu">
-                        <li>
-                            <a href="#"><i class="fa fa-users fa-fw"></i> Usuario<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="{!!URL::to('/usuario/create')!!}"><i class='fa fa-plus fa-fw'></i> Agregar</a>
-                                </li>
-                                <li>
-                                    <a href="{!!URL::to('/usuario')!!}"><i class='fa fa-list-ol fa-fw'></i> Usuarios</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-film fa-fw"></i> Pelicula<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="{!!URL::to('/pelicula/create')!!}"><i class='fa fa-plus fa-fw'></i> Agregar</a>
-                                </li>
-                                <li>
-                                    <a href="{!!URL::to('/pelicula')!!}"><i class='fa fa-list-ol fa-fw'></i> Peliculas</a>
-                                </li>
-                            </ul>
-                        </li>
 
-                        <li>
-                            <a href="#"><i class="fa fa-child fa-fw"></i> Genero<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="{!!URL::to('/genero/create')!!}"><i class='fa fa-plus fa-fw'></i> Agregar</a>
-                                </li>
-                                <li>
-                                    <a href="{!!URL::to('/genero')!!}"><i class='fa fa-list-ol fa-fw'></i> Generos</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                    </ul>
+            <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{!!URL::to('/')!!}">infoCine {!!Auth::user()->rol!!}</a>
                 </div>
+
+                @if (Auth::check())
+
+                <ul class="nav navbar-top-links navbar-right">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            {!!Auth::user()->name!!} <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li>
+                                {!!link_to_route('usuario.edit', $title = 'Editar', $parameters = Auth::user()->id, $attributes = ['class'=>'btn btn-primary'])!!}
+                            </li>
+                            <li class="divider"></li>
+                            <li><a href="{!!URL::to('/logout')!!}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                @endif
+
+
+                <div class="navbar-default sidebar" role="navigation">
+                    <div class="sidebar-nav navbar-collapse">
+                        <ul class="nav" id="side-menu">
+                            <li>
+                                <a href="#"><i class="fa fa-users fa-fw"></i> Usuario<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        <a href="{!!URL::to('/usuario/create')!!}"><i class='fa fa-plus fa-fw'></i> Agregar</a>
+                                    </li>
+                                    @if (Auth::user()->rol == 'admin')
+
+                                    <li>
+                                        <a href="{!!URL::to('/usuario')!!}"><i class='fa fa-list-ol fa-fw'></i> Usuarios</a>
+                                    </li>
+                                    @endif
+
+                                </ul>
+                            </li>
+                            @if (Auth::check())
+
+                            <li>
+                                <a href="#"><i class="fa fa-film fa-fw"></i> Pelicula<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        <a href="{!!URL::to('/pelicula/create')!!}"><i class='fa fa-plus fa-fw'></i> Agregar</a>
+                                    </li>
+                                    @if (Auth::user()->rol == 'admin')
+
+                                    <li>
+                                        <a href="{!!URL::to('/pelicula')!!}"><i class='fa fa-list-ol fa-fw'></i> Peliculas</a>
+                                    </li>
+                                    @endif
+                                </ul>
+                            </li>
+                            @endif
+                            @if (Auth::user()->rol == 'admin')
+
+                            <li>
+                                <a href="#"><i class="fa fa-child fa-fw"></i> Genero<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        <a href="{!!URL::to('/genero/create')!!}"><i class='fa fa-plus fa-fw'></i> Agregar</a>
+                                    </li>
+                                    <li>
+                                        <a href="{!!URL::to('/genero')!!}"><i class='fa fa-list-ol fa-fw'></i> Generos</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            @endif
+                        </ul>
+                    </div>
+                </div>
+
+            </nav>
+
+            <div id="page-wrapper">
+                @yield('content')
             </div>
 
-     </nav>
-
-        <div id="page-wrapper">
-            @yield('content')
         </div>
 
-    </div>
-    
 
-    {!!Html::script('js/jquery.min.js')!!}
-    {!!Html::script('js/bootstrap.min.js')!!}
-    {!!Html::script('js/metisMenu.min.js')!!}
-    {!!Html::script('js/sb-admin-2.js')!!}
+        {!!Html::script('js/jquery.min.js')!!}
+        {!!Html::script('js/bootstrap.min.js')!!}
+        {!!Html::script('js/metisMenu.min.js')!!}
+        {!!Html::script('js/sb-admin-2.js')!!}
 
-    @section('scripts')
+        @section('scripts')
 
-    @show
-</body>
+        @show
+    </body>
 
 </html>

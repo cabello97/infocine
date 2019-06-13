@@ -9,19 +9,16 @@ use App\User;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
 
+class UsuarioController extends Controller {
 
-class UsuarioController extends Controller
-{
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-
-    public function index()
-    {
+    public function index() {
         $users = User::paginate(2);
-        return view('usuario.index',compact('users'));
+        return view('usuario.index', compact('users'));
     }
 
     /**
@@ -29,8 +26,7 @@ class UsuarioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create() {
         return view('usuario.create');
     }
 
@@ -40,14 +36,17 @@ class UsuarioController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(UserCreateRequest $request)
-    {
+    public function store(UserCreateRequest $request) {
         User::create([
             'name' => $request['name'],
             'email' => $request['email'],
             'password' => $request['password'],
         ]);
-        return redirect('/usuario')->with('message','Usuario Creado Correctamente');
+        if ($request['rol'] == 'admin') {
+            return redirect('/usuario')->with('message', 'Usuario Creado Correctamente');
+        } else {
+            return redirect('/')->with('message', 'Usuario Creado Correctamente');
+        }
     }
 
     /**
@@ -56,8 +55,7 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
+    public function show($id) {
         //
     }
 
@@ -67,10 +65,9 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
+    public function edit($id) {
         $user = User::find($id);
-        return view('usuario.edit',['user'=>$user]);
+        return view('usuario.edit', ['user' => $user]);
     }
 
     /**
@@ -80,13 +77,21 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UserUpdateRequest $request, $id)
-    {
+    public function update(UserUpdateRequest $request, $id) {
+        $rol = 'comun';
+
+        if ($request['admin']) {
+            $rol = 'admin';
+        }
         $user = User::find($id);
-        $user->fill($request->all());
+        if ($request['auth_id'] == $id) {
+            $user->fill($request->all());
+        }
+        $user->rol = $rol;
         $user->save();
-        Session::flash('message','Usuario Actualizado Correctamente');
-        return Redirect::to('/usuario');    }
+        Session::flash('message', 'Usuario Actualizado Correctamente');
+        return Redirect::to('/usuario');
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -94,9 +99,10 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
+    public function destroy($id) {
         User::destroy($id);
-        Session::flash('message','Usuario Eliminado Correctamente');
-        return Redirect::to('/usuario');    }
+        Session::flash('message', 'Usuario Eliminado Correctamente');
+        return Redirect::to('/usuario');
+    }
+
 }

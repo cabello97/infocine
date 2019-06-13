@@ -6,18 +6,36 @@ use Illuminate\Http\Request;
 use App\Genre;
 use App\Movie;
 
-class MovieController extends Controller
-{
+class MovieController extends Controller {
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index() {
         $movies = Movie::Movies();
-        return view('pelicula.index',compact('movies'));
-    
+        return view('pelicula.index', compact('movies'));
+    }
+
+    public function likes(Request $request) {
+
+        $movie = Movie::findOrFail($request['id']);
+
+        $movie->likes = $request->likes + 1;
+
+        $movie->save();
+        return redirect('info/' . $request->id)->with('message', 'Me gusta guardado Correctamente');
+    }
+
+    public function dislikes(Request $request) {
+
+        $movie = Movie::findOrFail($request['id']);
+
+        $movie->dislikes = $request->dislikes + 1;
+
+        $movie->save();
+        return redirect('info/' . $request->id)->with('message', 'No me gusta guardado Correctamente');
     }
 
     /**
@@ -25,12 +43,10 @@ class MovieController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create() {
 
         $genres = Genre::pluck('genre', 'id');
-        return view('pelicula.create',compact('genres'));
-    
+        return view('pelicula.create', compact('genres'));
     }
 
     /**
@@ -39,11 +55,9 @@ class MovieController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         Movie::create($request->all());
-        return "Listo";
-    
+        return redirect('/pelicula')->with('message', 'Pelicula creada Correctamente');
     }
 
     /**
@@ -52,9 +66,8 @@ class MovieController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
+    public function show($id) {
+        
     }
 
     /**
@@ -63,12 +76,14 @@ class MovieController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
+    public function edit($id) {
 
-        $genres = Genre::pluck('genre', 'id');
-        return view('pelicula.edit',['movie'=>$this->movie,'genres'=>$genres]); 
-    
+        try {
+            $genres = Genre::pluck('genre', 'id');
+            return view('pelicula.edit', ['genres' => $genres, 'movie' => Movie::findOrFail($id), 'id' => $id]);
+        } catch (Illuminate\Database\QueryException $e) {
+            return view('errors/Database');
+        }
     }
 
     /**
@@ -78,12 +93,42 @@ class MovieController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        $this->movie->fill($request->all());
-        $this->movie->save();
-        Session::flash('message','Pelicula Editada Correctamente');
-        return Redirect::to('/pelicula');    }
+    public function update(Request $request) {
+
+        $movie = Movie::findOrFail($request['id']);
+        if (!empty($movie)) {
+            if (!empty($request['name'])) {
+                $movie->name = $request['name'];
+            }
+            if (!empty($request['cast'])) {
+                $movie->cast = $request['cast'];
+            }
+            if (!empty($request['synopsis'])) {
+                $movie->synopsis = $request['synopsis'];
+            }
+            if (!empty($request['direction'])) {
+                $movie->direction = $request['direction'];
+            }
+            if (!empty($request['duration'])) {
+                $movie->duration = $request['duration'];
+            }
+            if (!empty($request['age'])) {
+                $movie->age = $request['age'];
+            }
+            if (!empty($request['trailer'])) {
+                $movie->trailer = $request['trailer'];
+            }
+            if (!empty($request['path'])) {
+                $movie->path = $request['path'];
+            }
+            if (!empty($request['genre_id'])) {
+                $movie->genre_id = $request['genre_id'];
+            }
+        }
+        $movie->save();
+        \Session::flash('message', 'Pelicula Editada Correctamente');
+        return \Redirect::to('/pelicula');
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -91,8 +136,12 @@ class MovieController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
+    public function destroy($id) {
+
+        Movie::destroy($id);
+        \Session::flash('message', 'Pelicula Eliminada Correctamente');
+
+        return \Redirect::to('/pelicula');
     }
+
 }
