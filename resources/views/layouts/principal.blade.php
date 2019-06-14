@@ -71,10 +71,7 @@
             });
         </script>
         <script type="text/javascript" src="js/jquery.flexisel.js"></script>
-        <script type="text/javascript" src="js/jquery.mockjax.js"></script>
-        <script type="text/javascript" src="js/jquery.autocomplete.js"></script>
-        <script type="text/javascript" src="js/countries.js"></script>
-        <script type="text/javascript" src="js/demo.js"></script>
+
         <div class="clearfix"></div>
     </body>
 </html>

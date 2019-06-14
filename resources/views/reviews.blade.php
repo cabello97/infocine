@@ -7,17 +7,14 @@
             <p>Movie Theater</p>
         </div>
         <div class="search v-search">
-            <!--
+            
              <form>
-                 <input type="text" value="Search.." id="autocomplete-ajax" onfocus="this.value = '';" onblur="if (this.value == '') {
+                 <input type="text" value="Search.." onfocus="this.value = '';" onblur="if (this.value == '') {
                                                              this.value = 'Search..';
                                                          }"/>
                  <input type="submit" value="">
              </form>
-            -->
-            <input type="text" name="country" id="autocomplete-ajax" style="position: absolute; z-index: 2; background: transparent;"/>
-            <input type="text" name="country" id="autocomplete-ajax-x" disabled="disabled" style="color: #CCC; position: absolute; background: transparent; z-index: 1;"/>
-            <div id="selction-ajax"></div>
+            
         </div>
         <div class="clearfix"></div>
     </div>
