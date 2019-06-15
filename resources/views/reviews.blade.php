@@ -34,7 +34,7 @@
                     <p class="info">DURATION:&nbsp;&nbsp;{{$movie->duration}}</p>
                     <p class="info">AGE:&nbsp;&nbsp;{{$movie->age}}</p>
                     <p class="info"><i style="color: green" class="far fa-thumbs-up"></i>:&nbsp;&nbsp;{{$movie->likes}}&nbsp;&nbsp;<i style="color: red" class="far fa-thumbs-down"></i>:&nbsp;&nbsp;{{$movie->dislikes}}</p>
-                    <input id="input-{{$movie->id}}" name="input-{{$movie->id}}" class=" rating" data-min="0" data-max="5" data-step="0.1" value="{{$movie->likes - $movie->dislikes}}" disabled>
+                    <input id="input-{{$movie->id}}" name="input-{{$movie->id}}" class=" rating" data-min="0" data-max="5" data-step="0.1" value="{{$movie->likes / $movie->dislikes }}" disabled>
                 </div>
                 <div class="clearfix"></div>
             </div>
