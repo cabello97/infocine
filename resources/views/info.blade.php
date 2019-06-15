@@ -29,7 +29,7 @@
             {!!Form::close()!!}
         </div>
         @else
-        <p>Inicia sesion para dejar tu Me gusta</p>
+        <a href="{!!URL::to('/')!!}"><p>Inicia sesion para dejar tu Me gusta</p></a>
         @endif
     </div>
     <div class="clearfix"></div>
@@ -85,7 +85,9 @@
         {!!Form::submit('Enviar &#128221;',['class'=>'btn btn-primary'])!!}
         {!!Form::close()!!}
         @else
-        <p>Inicia sesion para dejar tu comentario</p>
+        <a href="{!!URL::to('/')!!}"><p>Inicia sesion para dejar tu comentario</p></a>
+
+
         @endif
     </ul>
 </div>

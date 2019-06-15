@@ -11,16 +11,20 @@ use App\User;
 class FrontController extends Controller {
 
     public function index() {
-        return view('index');
+        $moviesAll = Movie::Movies('');
+        return view('index', compact('moviesAll'));
     }
 
     public function contacto() {
         return view('contacto');
     }
 
-    public function reviews() {
-        $movies = Movie::Movies();
-        return view('reviews', compact('movies'));
+    public function reviews(Request $request) {
+        $name = $request['name'];
+        $moviesAll = Movie::Movies('');
+
+        $movies = Movie::Movies($name);
+        return view('reviews', compact('movies', 'moviesAll'));
     }
 
     public function admin() {

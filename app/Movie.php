@@ -19,10 +19,11 @@ class Movie extends Model {
         }
     }
 
-    public static function Movies() {
+    public static function Movies($name) {
         return DB::table('movies')
                         ->join('genres', 'genres.id', '=', 'movies.genre_id')
                         ->select('movies.*', 'genres.genre')
+                        ->where('name', 'LIKE', "%$name%")
                         ->get();
     }
 

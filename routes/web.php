@@ -32,6 +32,10 @@ Route::get('logout', 'LogController@logout');
 Route::resource('genero', 'GeneroController');
 Route::get('generos', 'GeneroController@listing');
 
+Route::post('reviews', [
+  'uses' => 'FrontController@reviews',
+  'as' => 'reviews.name'
+]);
 
 Route::post('likes', [
   'uses' => 'MovieController@likes',
