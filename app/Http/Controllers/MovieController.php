@@ -14,7 +14,7 @@ class MovieController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $movies = Movie::Movies();
+        $movies = Movie::Movies('');
         return view('pelicula.index', compact('movies'));
     }
 
